@@ -2,6 +2,7 @@ package mysql.project.Controller;
 
 import lombok.NoArgsConstructor;
 import mysql.project.DTO.*;
+import mysql.project.Services.LecturerService;
 import mysql.project.Services.StudentService;
 import mysql.project.primaryEntity.Lecturer;
 import mysql.project.secondaryEntity.Student;
@@ -22,6 +23,9 @@ import java.util.Set;
 public class StudentController {
     @Autowired
     private  StudentService studentService;
+
+    @Autowired
+    private LecturerService lecturerService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
@@ -51,7 +55,7 @@ public class StudentController {
     @PostMapping("/lecturer/login")
     ResponseEntity<?> login(@RequestBody LecturerRequest lecturerRequest){
         String email=lecturerRequest.getEmail();
-        List<Lecturer> lecturerList=studentService.validateLecturer(email);
+        List<Lecturer> lecturerList=lecturerService.validateLecturer(email);
 
         if(lecturerList.getFirst()!=null){
             return ResponseEntity.ok(new LecturerResponse(lecturerList.getFirst().getName(),email,"Login successful!!"));
@@ -62,9 +66,14 @@ public class StudentController {
 
     @GetMapping("/lecturerDetails/{email}")
     public ResponseEntity<?> getLecturerDetails(@PathVariable String email){
-        LecturerDetails details=studentService.lecturerDetails(email);
+        LecturerDetails details=lecturerService.lecturerDetails(email);
 
         return ResponseEntity.ok(details);
+    }
+
+    @PatchMapping("/update/marks")
+    public ResponseEntity<?> updateStudentMarks(@RequestBody ChangeMark changeMark){
+        return lecturerService.changeMarks(changeMark);
     }
 
 }
