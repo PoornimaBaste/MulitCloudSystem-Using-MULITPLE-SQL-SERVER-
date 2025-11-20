@@ -3,273 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecturer Details</title>
+    <title>Lecturer Dashboard — Glassmorphism</title>
+
     <style>
-        /* Base Styles */
+        /* ---------------------- ROOT COLORS ---------------------- */
+        :root {
+            --c1: rgb(255, 235, 178);
+            --c2: rgb(233, 168, 155);
+            --c3: rgb(216, 117, 199);
+            --c4: rgb(145, 43, 188);
+
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.25);
+
+            --text-dark: #1a1a1a;
+            --text-light: #f1f1f1;
+
+            --card-shadow: 0 6px 28px rgba(0, 0, 0, 0.18);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fafafa;
             margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--c1), var(--c2), var(--c3), var(--c4));
+            background-size: 200% 200%;
+            animation: gradientShift 18s ease infinite;
+            font-family: "Poppins", sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            padding: 20px;
+            overflow: hidden;
         }
 
-        h2 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #333;
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* PARTICLES */
+        .particle {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background: var(--c4);
+            border-radius: 50%;
+            opacity: 0.65;
+            transition: background 0.3s ease, transform 1s ease;
+        }
+
+        .particle:hover {
+            background: white;
+            transform: scale(1.55);
+        }
+
+        /* MAIN GLASS CARD */
+        .main-glass-card {
+            width: 88%;
+            max-width: 1050px;
+            min-height: 82vh;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            border-radius: 26px;
+            box-shadow: var(--card-shadow);
+            padding: 30px 38px;
+            position: relative;
+            animation: float 8s ease-in-out infinite, fadeIn 1.5s ease forwards;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.3rem;
+            color: var(--c4);
+            margin-bottom: 25px;
+            font-weight: 700;
         }
 
-        /* Container for all content */
-        .details-container {
-            background-color: white;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 900px;
-            padding: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        .inner-card {
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 1.2s ease both;
         }
 
-        .details-container:hover {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Section Cards */
         .section-card {
-            background-color: #ffffff;
             padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 14px;
+            border: 1px solid rgba(145, 43, 188, 0.3);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .section-card:hover {
-            background-color: #f7f7f7;
-            transform: translateY(-3px);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 22px rgba(145, 43, 188, 0.35);
         }
 
-        .section-card h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: #555;
-        }
-
-        .section-card button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .section-card button:hover {
-            background-color: #0056b3;
-        }
-
-        /* Student List */
-        .student-list {
-            display: none;
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .student-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .student-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .student-item strong {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .student-item p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        /* Button styles */
         .btn {
-            padding: 12px;
-            background-color: #f44336;
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--c3), var(--c4));
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
+            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
         .btn:hover {
-            background-color: #d32f2f;
+            transform: scale(1.05);
+            opacity: 0.9;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .details-container {
-                padding: 20px;
-            }
-
-            .section-card h3 {
-                font-size: 1rem;
-            }
+        .student-item {
+            margin-bottom: 13px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.28);
         }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #200628, #3b1166, #5a28a1);
+            background-size: 200% 200%;
+            animation: gradientShift 12s ease infinite;
+        }
+
+        .dark-mode .main-glass-card {
+            background: rgba(0, 0, 0, 0.28);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .dark-mode h1 { color: var(--c1); }
+        .dark-mode .btn {
+            background: linear-gradient(135deg, var(--c2), var(--c3));
+            color: black;
+        }
+
+        #modeToggle {
+            position: absolute;
+            top: 18px;
+            right: 25px;
+            background: var(--c4);
+            padding: 7px 15px;
+            color: white;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+        }
+
     </style>
 </head>
 <body>
 
-<div class="details-container">
-    <h2>Lecturer Details</h2>
-    <div id="sections-container"></div>
-    <div id="student-details" class="student-list"></div>
+<div id="modeToggle">Mode</div>
+
+<div class="main-glass-card">
+    <h1>Lecturer Dashboard</h1>
+
+    <div class="inner-card">
+        <h2>Sections & Subjects</h2>
+        <div id="sections-container"></div>
+    </div>
+
+    <div class="inner-card">
+        <h2>Student Details</h2>
+        <div id="student-details"></div>
+    </div>
+
     <button class="btn" id="logout-btn">Logout</button>
 </div>
 
 <script>
-    // Get the lecturer's email from the URL
-    const email = new URLSearchParams(window.location.search).get('email');
-    console.log("Lecturer Email:", email);  // Log lecturer email for debugging
+    // Dark mode toggle
+    document.getElementById("modeToggle").onclick = () => {
+        document.body.classList.toggle("dark-mode");
+    };
 
-    // Fetch lecturer details from the backend API
+    // Generate particles
+    document.addEventListener("DOMContentLoaded", () => {
+        for (let i = 0; i < 40; i++) {
+            let p = document.createElement("div");
+            p.classList.add("particle");
+            p.style.left = Math.random() * window.innerWidth + "px";
+            p.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(p);
+        }
+    });
+
+    // Backend fetch
+    const email = new URLSearchParams(window.location.search).get('email');
+
     fetch(`http://localhost:8080/api/student/lecturerDetails/${email}`)
         .then(response => response.json())
-        .then(data => {
-            console.log("Fetched Data:", data);  // Log fetched data for debugging
-            displaySectionsAndSubjects(data);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        .then(data => displaySectionsAndSubjects(data))
+        .catch(err => console.error(err));
 
-    // Display sections and subjects in cards
     function displaySectionsAndSubjects(data) {
-        const sectionsContainer = document.getElementById("sections-container");
+        const box = document.getElementById("sections-container");
+        box.innerHTML = '';
 
-        // Clear previous sections
-        sectionsContainer.innerHTML = '';
-
-        // Iterate through sections and subjects (using map2 and classToSubject)
         Object.keys(data.map2).forEach(section => {
-            // Check if the section has subjects assigned in classToSubject
             if (data.classToSubject[section]) {
                 data.classToSubject[section].forEach(subject => {
                     const card = document.createElement("div");
                     card.classList.add("section-card");
                     card.innerHTML = `
-                        <h3>${section}: ${subject}</h3>
-                        <button class="btn" data-section="${section}" data-subject="${subject}">Show Students</button>
+                        <h3>${section} : ${subject}</h3>
+                        <button class="btn" data-section="${section}" data-subject="${subject}">
+                            Show Students
+                        </button>
                     `;
-                    sectionsContainer.appendChild(card);
+                    box.appendChild(card);
                 });
             }
         });
 
-        // Attach event listeners to the Show Students buttons
-        const showStudentButtons = document.querySelectorAll(".section-card button");
-        showStudentButtons.forEach(button => {
-            button.addEventListener("click", (e) => {
-                const section = e.target.getAttribute("data-section");
-                const subject = e.target.getAttribute("data-subject");
-                showStudentDetails(section, subject, data.map2, data.map1, data.map);
+        document.querySelectorAll(".section-card button").forEach(btn => {
+            btn.addEventListener("click", e => {
+                showStudentDetails(
+                    e.target.dataset.section,
+                    e.target.dataset.subject,
+                    data.map2,
+                    data.map1,
+                    data.map
+                );
             });
         });
     }
 
-    function showStudentDetails(section, subject, sectionToStudents, map1, map) {
+    function showStudentDetails(section, subject, map2, map1, map) {
+        const box = document.getElementById("student-details");
+        box.innerHTML = `<h3>Students in ${section} - ${subject}</h3>`;
 
-    // Open a new tab
-    const newTab = window.open("", "_blank");
+        const studentIds = map2[section];
+        studentIds.forEach(id => {
+            if (map1[id]) {
+                const name = map1[id][0];
+                const roll = map1[id][1];
+                const marksObj = map[id]?.find(m => m[subject] !== undefined);
 
-    // Prepare HTML content
-    let html = `
-        <html>
-        <head>
-            <title>Students - ${section} (${subject})</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    background: #f4f4f4;
-                    padding: 20px;
+                if (marksObj) {
+                    const item = document.createElement("div");
+                    item.classList.add("student-item");
+                    item.innerHTML = `
+                        <strong>Name:</strong> ${name}<br>
+                        <strong>Roll No:</strong> ${roll}<br>
+                        <strong>Marks:</strong> ${marksObj[subject]}
+                    `;
+                    box.appendChild(item);
                 }
-                h2 {
-                    text-align: center;
-                }
-                .student-item {
-                    background: white;
-                    padding: 15px;
-                    margin-bottom: 10px;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-                }
-                strong { color: #333; }
-            </style>
-        </head>
-        <body>
-            <h2>Students in ${section} - ${subject}</h2>
-    `;
-
-    const studentIds = sectionToStudents[section];
-    if (!studentIds || studentIds.length === 0) {
-        html += `<p>No students found.</p></body></html>`;
-        newTab.document.write(html);
-        newTab.document.close();
-        return;
+            }
+        });
     }
 
-    studentIds.forEach(studentId => {
-        const studentInfo = map1[studentId];
-        if (studentInfo) {
-            const studentName = studentInfo[0];
-            const studentRollNo = studentInfo[1];
-
-            const marksData = map[studentId]?.find(mark => mark[subject] !== undefined);
-            let marks = marksData ? marksData[subject] : "N/A";
-
-            html += `
-                <div class="student-item">
-                    <strong>Name:</strong> ${studentName} <br>
-                    <strong>Roll No:</strong> ${studentRollNo} <br>
-                    <strong>Marks:</strong> ${marks}
-                </div>
-            `;
-        }
-    });
-
-    html += `</body></html>`;
-
-    // Write everything to the new tab
-    newTab.document.write(html);
-    newTab.document.close();
-}
-
-
-    // Logout function to redirect to the login page
-    document.getElementById("logout-btn").addEventListener("click", function() {
+    document.getElementById("logout-btn").onclick = () => {
         window.location.href = "/";
-    });
+    };
 </script>
+
 </body>
 </html>
+

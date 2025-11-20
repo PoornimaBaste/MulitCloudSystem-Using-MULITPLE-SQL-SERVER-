@@ -4,166 +4,262 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Student Details</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
     <style>
+        /* ===========================
+           COLOR PALETTE
+           =========================== */
+        :root {
+          --rose: rgb(255, 182, 185);
+          --peach: rgb(250, 227, 217);
+          --mint: rgb(187, 222, 214);
+          --teal: rgb(97, 192, 191);
+
+          --bg-light: linear-gradient(135deg, var(--rose), var(--mint));
+          --bg-dark: linear-gradient(135deg, #1a001f, #2d0038);
+
+          --glass-light: rgba(255, 255, 255, 0.35);
+          --glass-dark: rgba(0, 0, 0, 0.5);
+
+          --text-light: #f1f1f1;
+          --text-dark: #111;
+
+          --neon-hover: var(--teal);
+        }
+
+        /* Smooth transitions */
+        * { transition: all 0.3s ease; }
+
         body {
-   margin: 0;
-   padding: 0;
-   font-family: 'Roboto', sans-serif;
-   background: linear-gradient(135deg, #74ebd5, #9face6);
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
-   color: #333;
- }
+          margin: 0;
+          height: 100vh;
+          font-family: 'Inter', sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          background: var(--bg-light);
+          color: var(--text-dark);
+        }
 
-.student-info {
-    background-color: #fff;
-    padding: 15px 40px; /* Reduced vertical padding */
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    width: 600px;
-    animation: fadeIn 0.8s ease-in-out;
-    position: relative;
-    max-height: 500px; /* Set max height */
-    overflow-y: scroll; /* Allows scrolling, but hides the scrollbar */
-}
+        /* Particle canvas */
+        #particles {
+          position: fixed;
+          inset: 0;
+          z-index: -1;
+        }
 
-/* Hide the scrollbar, but still allow scrolling */
-.student-info::-webkit-scrollbar {
-    width: 0px; /* Hide scrollbar width */
-    height: 0px; /* Hide scrollbar height */
-}
+        /* ===========================
+           STUDENT CARD
+           =========================== */
+        .student-card {
+          width: 600px;
+          padding: 40px;
+          border-radius: 20px;
+          background: var(--glass-light);
+          backdrop-filter: blur(15px);
+          box-shadow: 0px 0px 25px rgba(0,0,0,0.15);
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          animation: fadeIn 0.7s ease, floatCard 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+          position: relative;
+        }
 
-.student-info::-webkit-scrollbar-thumb {
-    background: transparent; /* Make the scrollbar thumb invisible */
-}
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(25px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
 
- @keyframes fadeIn {
-   from { opacity: 0; transform: translateY(20px); }
-   to { opacity: 1; transform: translateY(0); }
- }
+        @keyframes floatCard {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+          100% { transform: translateY(0px); }
+        }
 
- h3 {
-   font-size: 30px;
-   margin-bottom: 15px;
-   color: #2c3e50;
-   text-align: center;
- }
+        @keyframes glowPulse {
+          0% { box-shadow: 0 0 15px rgba(255,255,255,0.15); }
+          50% { box-shadow: 0 0 35px rgba(255,255,255,0.35); }
+          100% { box-shadow: 0 0 15px rgba(255,255,255,0.15); }
+        }
 
- p {
-   font-size: 18px;
-   margin: 10px 0;
- }
+        /* Neon border on hover */
+        .student-card:hover {
+          box-shadow: 0 0 25px var(--rose), 0 0 50px var(--teal);
+          border: 1px solid var(--teal);
+        }
 
- p strong {
-   color: #ff6347;
- }
+        /* Title */
+        h3 {
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 20px;
+          text-align: center;
+          color: var(--teal);
+        }
 
- h4 {
-   font-size: 20px;
-   margin-top: 25px;
-   color: #2c3e50;
-   border-bottom: 2px solid #ff7f50;
-   padding-bottom: 5px;
- }
+        /* Structured fields */
+        p { font-size: 18px; margin: 10px 0; }
+        p strong { color: var(--rose); }
 
- ul {
-   list-style: none;
-   padding: 0;
-   margin: 10px 0;
- }
+        /* Section headings */
+        h4 {
+          margin-top: 25px;
+          font-size: 22px;
+          padding-bottom: 5px;
+          color: var(--teal);
+          border-bottom: 2px solid var(--rose);
+        }
 
- li {
-   font-size: 16px;
-   margin-bottom: 10px;
-   padding-left: 10px;
-   border-left: 4px solid #ff7f50;
- }
+        /* List styling */
+        ul { list-style: none; padding: 0; }
+        li {
+          padding: 8px 12px;
+          background: rgba(255, 255, 255, 0.25);
+          margin-bottom: 10px;
+          border-radius: 10px;
+          border-left: 4px solid var(--rose);
+        }
 
- .empty-message {
-   font-size: 16px;
-   color: #e74c3c;
-   font-style: italic;
- }
+        .empty-message { color: rgb(200,0,0); font-style: italic; }
+        .loading { text-align: center; color: var(--teal); font-weight: 600; font-size: 20px; }
 
- .loading {
-   font-size: 20px;
-   color: #2980b9;
-   text-align: center;
-   font-weight: bold;
- }
+        /* Toggle button */
+        .toggle {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: var(--peach);
+          border: none;
+          padding: 10px 18px;
+          border-radius: 50px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        .toggle:hover { box-shadow: 0px 0px 12px var(--mint); }
 
- .footer {
-   position: absolute;
-   bottom: 10px;
-   font-size: 14px;
-   color: #7f8c8d;
-   text-align: center;
-   width: 100%;
- }
+        /* ===========================
+           DARK MODE
+           =========================== */
+        .dark {
+          background: var(--bg-dark);
+          color: var(--text-light);
+        }
 
+        .dark .student-card {
+          background: var(--glass-dark);
+          border: 1px solid rgba(187, 222, 214, 0.4);
+          color: var(--text-light);
+        }
+
+        .dark h3 { color: var(--mint); }
+        .dark h4 { color: var(--peach); border-bottom-color: var(--rose); }
+        .dark p strong { color: var(--rose); }
+
+        .dark li {
+          background: rgba(255, 182, 185, 0.2);
+          border-left-color: var(--teal);
+        }
     </style>
 </head>
+
 <body>
 
-<div class="student-info" id="studentInfo">
-    <p class="loading">🔄 Loading student details...</p>
+<canvas id="particles"></canvas>
+<button class="toggle" id="toggleMode">Mode</button>
+<div class="student-card" id="card">
+    <p class="loading">Loading student details...</p>
+
 </div>
 
 <script>
+    /* =============================
+       DARK MODE TOGGLE FIX
+       ============================= */
+    function attachToggle() {
+      const toggleBtn = document.getElementById("toggleMode");
+      if(toggleBtn){
+        toggleBtn.onclick = () => document.body.classList.toggle("dark");
+      }
+    }
+    attachToggle(); // Attach initially
+
+    /* =============================
+       FETCH STUDENT DETAILS
+       ============================= */
     const urlParams = new URLSearchParams(window.location.search);
-    const studentId = urlParams.get('studentId');
+    const studentId = urlParams.get("studentId");
+    const cardContent = document.getElementById("card");
 
     if (studentId) {
       fetch(`http://localhost:8080/api/student/details/${studentId}`)
-        .then(response => response.json())
-        .then(studentData => {
-          const name = studentData.name || 'No name available';
-          const rollNo = studentData.rollNo || 'N/A';
-          const gender = studentData.gender || 'Not specified';
-          const section = studentData.section || 'Not specified';
-          const email = studentData.email || 'No email available';
-          const marks = studentData.marks || [];
-          const lecturers = studentData.lecturers || [];
+        .then(res => res.json())
+        .then(student => {
+          const marksList = student.marks?.length
+            ? student.marks.map(m=>`<li><strong>${m.subject}</strong>: ${m.marks} marks (Grade: ${m.grade})</li>`).join('')
+            : `<li class="empty-message">No marks available</li>`;
 
-          const studentInfo = `
-            <h3>🎓 Welcome, ${name}</h3>
-            <p><strong>🆔 Roll Number:</strong> ${rollNo}</p>
-            <p><strong>👤 Gender:</strong> ${gender}</p>
-            <p><strong>🏫 Section:</strong> ${section}</p>
-            <p><strong>📧 Email:</strong> ${email}</p>
+          const lecturersList = student.lecturers?.length
+            ? student.lecturers.map(l=>`<li><strong>${l.name}</strong> — ${l.department}</li>`).join('')
+            : `<li class="empty-message">No lecturers available</li>`;
 
-            <h4>📊 Marks</h4>
-            <ul>
-              ${marks.length > 0 ? marks.map(mark => `
-                <li><strong>${mark.subject}</strong>: ${mark.marks} marks, Grade: ${mark.grade}</li>
-              `).join('') : '<li class="empty-message">No marks available</li>'}
-            </ul>
+          cardContent.innerHTML = `
+            <p class="loading"></p>
+            <button class="toggle" id="toggleMode">Change Mode</button>
+            <h3>🎓 ${student.name || "Student"}</h3>
+            <p><strong>Roll No:</strong> ${student.rollNo || "N/A"}</p>
+            <p><strong>Gender:</strong> ${student.gender || "N/A"}</p>
+            <p><strong>Section:</strong> ${student.section || "N/A"}</p>
+            <p><strong>Email:</strong> ${student.email || "N/A"}</p>
 
-            <h4>👨‍🏫 Lecturers</h4>
-            <ul>
-              ${lecturers.length > 0 ? lecturers.map(lecturer => `
-                <li><strong>${lecturer.name}</strong> - ${lecturer.department}</li>
-              `).join('') : '<li class="empty-message">No lecturers available</li>'}
-            </ul>
+            <h4>Marks</h4>
+            <ul>${marksList}</ul>
+
+            <h4>Lecturers</h4>
+            <ul>${lecturersList}</ul>
           `;
 
-          document.getElementById('studentInfo').innerHTML = studentInfo;
-        })
-        .catch(error => {
-          console.error('Error fetching student details:', error);
-          document.getElementById('studentInfo').innerHTML = '<p class="empty-message">❌ Error fetching student details.</p>';
+          attachToggle(); // Reattach toggle button after dynamic update
         });
-    } else {
-      document.getElementById('studentInfo').innerHTML = '<p class="empty-message">⚠️ No student ID found.</p>';
     }
-</script>
 
-<div class="footer">
-    <p>Powered by Student Management System</p>
-</div>
+    /* =============================
+       PARTICLE BACKGROUND
+       ============================= */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    let particles = [];
+    for(let i=0;i<75;i++){
+      particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*3+1,
+        dx: Math.random()*0.6-0.3,
+        dy: Math.random()*0.6-0.3
+      });
+    }
+
+    function animateParticles(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p=>{
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0 || p.x>canvas.width) p.dx*=-1;
+        if(p.y<0 || p.y>canvas.height) p.dy*=-1;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        ctx.fill();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+</script>
 
 </body>
 </html>
+
+
