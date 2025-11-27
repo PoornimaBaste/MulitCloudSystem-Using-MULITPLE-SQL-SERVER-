@@ -70,6 +70,7 @@
             width: 88%;
             max-width: 1050px;
             min-height: 82vh;
+            max-height: 82vh;
             background: rgba(255, 255, 255, 0.14);
             backdrop-filter: blur(18px);
             border: 1px solid var(--glass-border);
@@ -80,6 +81,7 @@
             overflow-y: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
 
         .main-glass-card::-webkit-scrollbar {
@@ -258,15 +260,25 @@
         }
 
         .main-glass-card {
-            width:88%;
-            max-width:900px;
-            max-height:80vh;
-            background: rgba(255,255,255,0.14);
-            backdrop-filter: blur(18px);
-            border-radius:26px;
-            padding:30px;
-            overflow-y:auto;
+           width:88%;
+           max-width:900px;
+           max-height:80vh;
+           background: rgba(255,255,255,0.14);
+           backdrop-filter: blur(18px);
+           border-radius:26px;
+           padding:30px;
+           overflow-y:auto;
+
+           /* Hide scrollbar (all browsers) */
+           -ms-overflow-style: none;   /* IE & Edge */
+           scrollbar-width: none;  /* Firefox */
+           scroll-behavior: smooth;
         }
+
+        .main-glass-card::-webkit-scrollbar {
+            display: none;   /* Chrome, Safari, Opera */
+        }
+
 
         .student-item{
             margin-bottom:15px;
