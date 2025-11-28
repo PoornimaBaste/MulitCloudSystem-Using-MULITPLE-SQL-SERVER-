@@ -14,7 +14,6 @@ public class AddStudentDto {
    private String gender;
    private String email;
    private String subject;
-   private String lecturer;
    private String section;
    private int mark;
    private String grade;

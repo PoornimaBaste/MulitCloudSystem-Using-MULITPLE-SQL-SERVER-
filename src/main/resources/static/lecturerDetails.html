@@ -392,15 +392,21 @@ function showStudentDetailsInNewTab(section, subject, map2, map1, map) {
 
     <!-- ADD STUDENT MODAL -->
     <div class="modal-bg" id="addStudentModal">
-        <div class="modal-box">
-            <h3>Add New Student</h3>
-            <input type="text" id="newStudentName" placeholder="Student Name">
-            <input type="text" id="newStudentRoll" placeholder="Roll Number">
-            <input type="number" id="newStudentId" placeholder="Student ID">
-            <button class="btn" onclick="addNewStudent()">Add</button>
-            <button class="btn" onclick="closeAddModal()">Cancel</button>
-        </div>
+    <div class="modal-box">
+        <h3>Add New Student</h3>
+
+        <input type="text" id="newStudentName" placeholder="Student Name">
+        <input type="text" id="newStudentRoll" placeholder="Roll Number">
+        <input type="text" id="newStudentGender" placeholder="Gender (M/F)">
+        <input type="email" id="newStudentEmail" placeholder="Email">
+        <input type="number" id="newStudentMark" placeholder="Mark">
+        <input type="text" id="newStudentGrade" placeholder="Grade">
+
+        <button class="btn" onclick="addNewStudent()">Add</button>
+        <button class="btn" onclick="closeAddModal()">Cancel</button>
     </div>
+</div>
+
 
     <script>
         let currentStudent = null;
@@ -445,22 +451,39 @@ function showStudentDetailsInNewTab(section, subject, map2, map1, map) {
         }
 
         function addNewStudent(){
-            const name = document.getElementById("newStudentName").value;
-            const roll = document.getElementById("newStudentRoll").value;
-            const id = document.getElementById("newStudentId").value;
+    const name = document.getElementById("newStudentName").value;
+    const roll = document.getElementById("newStudentRoll").value;
+    const gender = document.getElementById("newStudentGender").value;
+    const email = document.getElementById("newStudentEmail").value;
+    const subject = "${subject}";
+    const section = "${section}";
+    const mark = Number(document.getElementById("newStudentMark").value);
+    const grade = document.getElementById("newStudentGrade").value;
 
-            fetch("http://localhost:8080/api/student/add", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    studentId: Number(id),
-                    studentName: name,
-                    rollNumber: roll,
-                    section: "${section}"
-                })
-            })
-            .then(() => location.reload());
+    fetch("http://localhost:8080/api/student/add/student", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            rollNo: roll,
+            name: name,
+            gender: gender,
+            email: email,
+            subject: subject,
+            section: section,
+            mark: mark,
+            grade: grade
+        })
+    })
+    .then(res => {
+        if(res.ok){
+            alert("Student Added Successfully!");
+            location.reload();
+        } else {
+            alert("Failed to Add Student");
         }
+    });
+}
+
     <\/script>
     </body>
     </html>
